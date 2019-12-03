@@ -1,0 +1,10 @@
+arquivo inicial
+
+mudancas...
+
+git add *
+
+git commit -m "anotacoes"
+
+
+git push
