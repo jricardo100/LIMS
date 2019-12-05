@@ -2,10 +2,12 @@
 
 2) Abrir o cmd
 
-3) Digitar o comando <git>
+3) Ir até o diretório onde estão os arquivos
 
-4) Digitar o comando  <git add *>
+4) Digitar o comando <git>
 
-5) Digitar o comando <git commit -m "anotacoes">
+5) Digitar o comando  <git add *>
 
-6) Digitar o comando <git push>
+6) Digitar o comando <git commit -m "anotacoes">
+
+7) Digitar o comando <git push>
