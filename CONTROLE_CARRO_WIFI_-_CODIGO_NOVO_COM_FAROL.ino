@@ -2,12 +2,17 @@
 #ifndef STASSID
 
 // rede do meu celular
-#define STASSID "STWA_JR"                     // Nome da rede a ser usada
-#define STAPSK  "774881jr"                    // Senha da rede a ser usada
+//#define STASSID "STWA_JR"                     // Nome da rede a ser usada
+//#define STAPSK  "774881jr"                    // Senha da rede a ser usada
 
 // rede LIMS
-//#define STASSID "LaPeSi/Lims"
-//#define STAPSK  "naotemsenha"
+#define STASSID "LaPeSi/Lims"
+#define STAPSK  "naotemsenha"
+
+// rede FERNANDO
+//#define STASSID "Webfoss"
+//#define STAPSK  "eejz6902"
+
 #endif
 
 const char* ssid = STASSID;
@@ -17,6 +22,7 @@ int direita_inverte = D3;                     // CONECTAR O MOTOR DIREITO INVERT
 int esquerda = D4;                            // CONECTAR O MOTOR ESQUERDO AO PINO D4
 int esquerda_inverte = D5;                    // CONECTAR O MOTOR ESQUERDO INVERTIDO AO PINO D5
 int farol = D6;                               // CONECTAR OS LEDS DO FAROL AO PINO D6
+int estado_farol = 0;
 
 WiFiServer server(80);                        // Criação do servidor
 
@@ -50,8 +56,8 @@ void parar(){
     digitalWrite(direita_inverte, LOW);
     digitalWrite(esquerda_inverte, LOW);
     }
-void liga_farol(){digitalWrite(farol, HIGH);}
-void desliga_farol(){digitalWrite(farol, LOW);}
+void liga_farol(){Serial.println("farol ligado");digitalWrite(farol, HIGH);}
+void desliga_farol(){Serial.println("farol desligado");digitalWrite(farol, LOW);}
 
 
 void setup() {                                                                      //Configuração do programa
@@ -86,10 +92,9 @@ void loop() {
   else if (req.indexOf(F("/gpio/T")) != -1) {andarparatras();}
   else if (req.indexOf(F("/gpio/E")) != -1) {andarparaesquerda();}
   else if (req.indexOf(F("/gpio/D")) != -1) {andarparadireita();}
-  else if (req.indexOf(F("/gpio/A")) != -1) {liga_farol();}
-  else if (req.indexOf(F("/gpio/B")) != -1) {desliga_farol();}
+  else if (req.indexOf(F("/gpio/A")) != -1) {if (estado_farol == 0){liga_farol();estado_farol=1;}else{desliga_farol();estado_farol=0;}}
   else if (req.indexOf(F("/gpio/0")) != -1) {parar();}
-  while (client.available()) {client.read();}              // Enquanto houver solicitação, repete a solicitação
+  while (client.available()) {client.read();}              // Enquanto houver solicitação, repete a mesma
   client.print(F("HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n<!DOCTYPE HTML>\r\n<html>\rIP:"));
   client.print(WiFi.localIP());
 }
